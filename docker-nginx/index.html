@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <body>
+        <script type="text/javascript">
+            window.config = {
+                greeting: "$GREETING" || "Hello",
+            };
+
+            window.onload = () => {
+                document.getElementById("greeting").innerHTML = window.config.greeting;
+            };
+        </script>
+    </body>
+    <h1><span id="greeting">______</span>, World!</h1>
+
+</html>
