@@ -1,0 +1,23 @@
+name: "Test HTTP Service Satisfies Specification"
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        description: "Path to the directory containing the docker compose configuration"
+        required: true
+        type: string
+        default: "."
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start service for tests
+        run: docker compose -f ./${{ inputs.path }}/docker-compose.yaml up -d --wait
+      - name: Perform index page request
+        id: requests-index
+        uses: CamiloGarciaLaRotta/watermelon-http-client@v1
+        with:
+          url: "http://localhost:8080"
+      - run: echo ${{ steps.requests-index.outputs.response }}
