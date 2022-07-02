@@ -1,9 +1,9 @@
 services:
-  sparse:
+  greeting:
     build: .
     ports:
       - 8080:8080
     environment:
       GREETING: "Welcome"
     volumes:
-      - ./index.html:/srv/index.html
+      - ../.github/workflows/fixtures/greeting/index.html:/srv/index.html

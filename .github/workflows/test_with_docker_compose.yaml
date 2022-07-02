@@ -4,21 +4,34 @@ on:
   workflow_call:
     inputs:
       path:
-        description: "Path to the directory containing the docker compose configuration"
+        description: "Path to the directory containing the docker compose tests configuration"
         required: true
         type: string
         default: "."
 
 jobs:
-  build:
+  http-fixtures:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Start service for tests
-        run: docker compose -f ./${{ inputs.path }}/docker-compose.yaml up -d --wait
-      - name: Perform index page request
-        id: requests-index
+      - name: Launch test service(s)
+        run: docker compose -f ./${{ inputs.path }}/docker-compose.tests.yaml up -d --wait
+      ##################################################
+      # The greeting fixture is available on port 8080 #
+      ##################################################
+      - name: Perform index page request to greeting
+        id: greeting-index-response
         uses: CamiloGarciaLaRotta/watermelon-http-client@v1
         with:
           url: "http://localhost:8080"
-      - run: echo ${{ steps.requests-index.outputs.response }}
+      - name: Load greeting fixture
+        id: greeting-index-expected
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.github/workflows/fixtures/greeting/expected.html
+      - name: Test greeting index page matches fixture
+        uses: pr-mpt/actions-assert@v3
+        with:
+          assertion: npm://@assertions/is-equal:v1
+          actual: "${{ steps.greeting-index-response.outputs.body }}"
+          expected: "${{ steps.outputs.greeting-index-expected.content }}"
