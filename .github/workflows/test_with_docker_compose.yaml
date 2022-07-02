@@ -33,5 +33,5 @@ jobs:
         uses: pr-mpt/actions-assert@v3
         with:
           assertion: npm://@assertions/is-equal:v1
-          actual: "${{ steps.greeting-index-response.outputs.body }}"
-          expected: "${{ steps.outputs.greeting-index-expected.content }}"
+          actual: "${{ steps.greeting-index-response.outputs.response }}"
+          expected: "${{ steps.greeting-index-expected.outputs.content }}"
