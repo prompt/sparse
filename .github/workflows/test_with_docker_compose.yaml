@@ -7,15 +7,24 @@ on:
         description: "Path to the directory containing the docker compose tests configuration"
         required: true
         type: string
-        default: "."
 
 jobs:
   http-fixtures:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get commit hash
+        id: commit
+        uses: pr-mpt/actions-commit-hash@v1
+        with:
+          prefix: "sha-"
       - name: Launch test service(s)
-        run: docker compose -f ./${{ inputs.path }}/docker-compose.tests.yaml up -d --wait
+        env:
+          COMPOSE_FILE: "./${{ inputs.path }}/docker-compose.tests.yaml"
+          SPARSE_IMAGE: "ghcr.io/${{ github.repository }}-${{ steps.commit.outputs.short }}"
+        run: |
+          docker compose pull
+          docker compose up -d --wait
       ##################################################
       # The greeting fixture is available on port 8080 #
       ##################################################

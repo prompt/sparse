@@ -10,13 +10,14 @@ on:
 jobs:
   test-docker-nginx:
     uses: ./.github/workflows/test_with_docker_compose.yaml
+    needs:
+      - publish-container-image
     with:
       path: "docker-nginx"
   publish-container-image:
     runs-on: ubuntu-latest
     needs:
       - meta
-      - test-docker-nginx
     steps:
       - name: Log in to GitHub Container Registry as actor
         uses: docker/login-action@v1
@@ -61,7 +62,7 @@ jobs:
       image_name: "ghcr.io/${{ github.repository }}-docker-nginx"
       archive: "docker-nginx-${{ steps.commit.outputs.short }}.tar"
       labels: "${{ steps.image.outputs.labels }}"
-      tags-commit: "commits-${{ steps.commit.outputs.short }}"
+      tags-commit: "${{ steps.commit.outputs.short }}"
       tags-branch: "branches-${{ steps.branch.outputs.sanitized-branch-name }}"
     steps:
       - name: Get commit hash

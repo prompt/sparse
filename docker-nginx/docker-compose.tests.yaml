@@ -1,5 +1,6 @@
 services:
   greeting:
+    image: ${SPARSE_IMAGE:-pr-mpt/sparse-docker-nginx}
     build: .
     ports:
       - 8080:8080
