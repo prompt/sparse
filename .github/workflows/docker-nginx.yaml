@@ -1,4 +1,4 @@
-name: "Build docker-nginx Sparse runtime"
+name: "docker-nginx runtime"
 
 on:
   workflow_dispatch:
