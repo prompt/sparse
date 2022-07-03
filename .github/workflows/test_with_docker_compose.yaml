@@ -47,6 +47,6 @@ jobs:
       - name: Test greeting index page matches fixture
         uses: pr-mpt/actions-assert@v3
         with:
-          assertion: npm://@assertions/is-equal:v1
+          assertion: npm://@assertions/equivalent-html:v1
           actual: "${{ steps.greeting-index-response.outputs.response }}"
           expected: "${{ steps.greeting-index-expected.outputs.content }}"
