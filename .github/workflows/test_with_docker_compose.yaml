@@ -3,8 +3,8 @@ name: "Test HTTP Service Satisfies Specification"
 on:
   workflow_call:
     inputs:
-      path:
-        description: "Path to the directory containing the docker compose tests configuration"
+      image:
+        description: "Name (which is also the path) of the Image to test"
         required: true
         type: string
 
@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Log in to GitHub Container Registry as actor
+        uses: docker/login-action@v1
+        with:
+          registry: "ghcr.io"
+          username: "${{ github.actor }}"
+          password: "${{ github.token }}"
       - name: Get commit hash
         id: commit
         uses: pr-mpt/actions-commit-hash@v1
@@ -20,10 +26,10 @@ jobs:
           prefix: "sha-"
       - name: Launch test service(s)
         env:
-          COMPOSE_FILE: "./${{ inputs.path }}/docker-compose.tests.yaml"
-          SPARSE_IMAGE: "ghcr.io/${{ github.repository }}-${{ steps.commit.outputs.short }}"
+          COMPOSE_FILE: "./${{ inputs.image }}/docker-compose.tests.yaml"
+          SPARSE_IMAGE: "ghcr.io/${{ github.repository }}-${{ inputs.image }}:${{ steps.commit.outputs.short }}"
         run: |
-          docker compose pull
+          docker compose pull --ignore-pull-failures
           docker compose up -d --wait
       ##################################################
       # The greeting fixture is available on port 8080 #
