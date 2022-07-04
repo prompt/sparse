@@ -9,9 +9,7 @@ HTML with their values from the Environment.
 
 ### Example
 
-1. Create the application's `index.html` entrypoint
-
-:bulb: ...or clone this repository and skip to the next step
+1. Clone this repository OR create an `index.html` entrypoint
 
 ```html
 <!DOCTYPE html>
