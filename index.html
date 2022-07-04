@@ -4,14 +4,16 @@
     <body>
         <script type="text/javascript">
             window.config = {
-                greeting: "$GREETING" || "Hello",
+                API: "$API_URL" || "http://default.localhost",
             };
 
             window.onload = () => {
-                document.getElementById("greeting").innerHTML = window.config.greeting;
+                document.getElementById("api").innerHTML = window.config.API;
             };
         </script>
     </body>
-    <h1><span id="greeting">______</span>, World!</h1>
+    <p>
+        API endpoint provided at runtime: <span id="api">loading</span>
+    </p>
 
 </html>

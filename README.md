@@ -11,6 +11,8 @@ HTML with their values from the Environment.
 
 1. Create the application's `index.html` entrypoint
 
+:bulb: ...or clone this repository and skip to the next step
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -24,10 +26,11 @@ HTML with their values from the Environment.
 </html>
 ```
 
-2. Launch the sparse runtime
+2. Launch the sparse runtime, e.g: [docker-nginx](/docker-nginx)
 
 ```console
-dev:~$ docker run -v $(PWD):/srv -p 8080:8080 -e API_URL="https://api.example.com" sparse
+dev:~$ docker pull ghcr.io/pr-mpt/sparse-docker-nginx
+dev:~$ docker run -v $(PWD):/srv -p 8080:8080 -e API_URL="https://api.example.com" ghcr.io/pr-mpt/sparse-docker-nginx
 ```
 
 3. Observe Environment Variable replacement in page source
