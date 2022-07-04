@@ -53,6 +53,14 @@ jobs:
           repository: "${{ needs.meta.outputs.image_repository }}"
           target: "${{ needs.meta.outputs.tags-commit }}"
           tags: "${{ needs.meta.outputs.tags-branch }}"
+      - name: Tag image as latest if build is on main branch
+        if: "${{ needs.meta.outputs.branch == 'main' }}"
+        uses: shrink/actions-docker-registry-tag@v2
+        with:
+          registry: "${{ needs.meta.outputs.registry }}"
+          repository: "${{ needs.meta.outputs.image_repository }}"
+          target: "${{ needs.meta.outputs.tags-commit }}"
+          tags: "latest"
   meta:
     runs-on: ubuntu-latest
     outputs:
@@ -62,6 +70,7 @@ jobs:
       image_name: "ghcr.io/${{ github.repository }}-docker-nginx"
       archive: "docker-nginx-${{ steps.commit.outputs.short }}.tar"
       labels: "${{ steps.image.outputs.labels }}"
+      branch: "${{ steps.branch.outputs.sanitized-branch-name }}"
       tags-commit: "${{ steps.commit.outputs.short }}"
       tags-branch: "branches-${{ steps.branch.outputs.sanitized-branch-name }}"
     steps:
