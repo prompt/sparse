@@ -1,4 +1,6 @@
-FROM nginx:stable-alpine
+ARG NGINX=1.22
+
+FROM nginx:$NGINX-alpine
 
 WORKDIR /srv
 
