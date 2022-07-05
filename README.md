@@ -26,14 +26,14 @@ HTML with their values from the Environment.
 
 2. Launch the sparse runtime, e.g: [docker-nginx](/docker-nginx)
 
-```console
+```sh
 docker pull ghcr.io/pr-mpt/sparse-docker-nginx
 docker run -v $(PWD):/srv -p 8080:8080 -e API_URL="https://api.example.com" ghcr.io/pr-mpt/sparse-docker-nginx
 ```
 
 3. Observe Environment Variable replacement in page source
 
-```console
+```sh
 open http://localhost:8080
 ```
 
