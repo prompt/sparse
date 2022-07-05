@@ -26,14 +26,18 @@ HTML with their values from the Environment.
 
 2. Launch the sparse runtime, e.g: [docker-nginx](/docker-nginx)
 
-```sh
-docker pull ghcr.io/pr-mpt/sparse-docker-nginx
-docker run -v $(PWD):/srv -p 8080:8080 -e API_URL="https://api.example.com" ghcr.io/pr-mpt/sparse-docker-nginx
+```shell
+docker run \
+  --volume $(PWD):/srv \
+  --publish 8080:8080 \
+  --env API_URL="https://api.example.com" \
+  ghcr.io/pr-mpt/sparse-docker-nginx
 ```
 
-3. Observe Environment Variable replacement in page source
+3. Observe Environment Variable replacement in page source at
+   [localhost:8080<sup>⇗</sup>][demo]
 
-```sh
+```shell
 open http://localhost:8080
 ```
 
@@ -66,3 +70,5 @@ open http://localhost:8080
 - Fly
 - Cloudflare Functions
 - Binary
+
+[demo]: http://localhost:8080
